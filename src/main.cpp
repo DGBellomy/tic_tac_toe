@@ -40,6 +40,9 @@ int main()
             case O:
                 player1 = new t3AI(X);
                 player2 = new t3Human(O);
+            default:
+                std::cout << "ERROR: Invalid value for piece" << std::endl;
+                continue;
             }
             break;
         case 2:
