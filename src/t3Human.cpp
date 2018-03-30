@@ -1,30 +1,33 @@
-#include "t3Human.h"
+#include "t3/Human.h"
+
 #include <iostream>
 
+#include "t3/Board.h"
 
-
-t3Human::t3Human(t3Piece piece)
-    :t3Player(piece)
+namespace t3
 {
-}
+    Human::Human(Board::Piece piece)
+        :Player(piece)
+    {
+    }
 
+    Human::~Human()
+    {
+    }
 
-t3Human::~t3Human()
-{
-}
+    bool Human::Move(Board & board)
+    {
+        int row, col;
+        _DisplayBoard(board);
+        std::cout << "Enter position (row col) here: ";
+        std::cin >> row >> col;
+        return MakeMove(board, row, col);
+    }
 
-bool t3Human::Move(t3Board & board)
-{
-    int row, col;
-    _DisplayBoard(board);
-    std::cout << "Enter position (row col) here: ";
-    std::cin >> row >> col;
-    return MakeMove(board, row, col);
-}
-
-void t3Human::_DisplayBoard(const t3Board & board) const
-{
-    std::cout << "***TIC-TAC-TOE***" << std::endl;
-    std::cout << "Player" << m_piece << "'s turn" << std::endl;
-    board.Render();
-}
+    void Human::_DisplayBoard(const Board & board) const
+    {
+        std::cout << "***TIC-TAC-TOE***" << std::endl;
+        std::cout << "Player" << m_piece << "'s turn" << std::endl;
+        board.Render();
+    }
+};

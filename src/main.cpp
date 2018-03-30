@@ -1,16 +1,16 @@
 #include <iostream>
-#include "t3Board.h"
-#include "t3Human.h"
-#include "t3AI.h"
+#include "t3/Board.h"
+#include "t3/Human.h"
+#include "t3/AI.h"
 
-t3Piece PickPiece();
+t3::Board::Piece PickPiece();
 
 int main()
 {
-    t3Board board;
-    t3Player* player1 = nullptr;
-    t3Player* player2 = nullptr;
-    t3Player* current;
+    t3::Board board;
+    t3::Player* player1 = nullptr;
+    t3::Player* player2 = nullptr;
+    t3::Player* current;
 
     // how many players?
     while (true)
@@ -19,35 +19,36 @@ int main()
         std::cout << "How many players? ";
         std::cin >> num_players;
         std::cout << std::endl;
-        t3Piece piece;
+        t3::Board::Piece piece;
 
         switch(num_players)
         {
         case 0:
-            player1 = new t3AI(X);
-            player2 = new t3AI(O);
+            player1 = new t3::AI(t3::Board::Piece::X);
+            player2 = new t3::AI(t3::Board::Piece::O);
             break;
         case 1:
-            while ((piece = PickPiece()) == ERROR)
+            while ((piece = PickPiece()) == t3::Board::Piece::ERROR)
                 std::cout << "Invalid choice" << std::endl;
 
             switch(piece)
             {
-            case X:
-                player1 = new t3Human(X);
-                player2 = new t3AI(O);
+            case t3::Board::Piece::X:
+                player1 = new t3::Human(t3::Board::Piece::X);
+                player2 = new t3::AI(t3::Board::Piece::O);
                 break;
-            case O:
-                player1 = new t3AI(X);
-                player2 = new t3Human(O);
+            case t3::Board::Piece::O:
+                player1 = new t3::AI(t3::Board::Piece::X);
+                player2 = new t3::Human(t3::Board::Piece::O);
+                break;
             default:
-                std::cout << "ERROR: Invalid value for piece" << std::endl;
+                std::cout << "ERROR: Invalid value for piece." << std::endl;
                 continue;
             }
             break;
         case 2:
-            player1 = new t3Human(X);
-            player2 = new t3Human(O);
+            player1 = new t3::Human(t3::Board::Piece::X);
+            player2 = new t3::Human(t3::Board::Piece::O);
             break;
         default:
             std::cout << "Invalid number of players" << std::endl;
@@ -59,26 +60,26 @@ int main()
 
     current = player1;
 
-    while (board.Status() == IN_PROGRESS)
+    while (board.GetStatus() == t3::Board::Status::IN_PROGRESS)
     {
         system("clear");
         while (!current->Move(board))
             std::cout << "invalid move" << std::endl;
-        current = (current->GetPiece() == X) ? player2 : player1;
+        current = (current->GetPiece() == t3::Board::Piece::X) ? player2 : player1;
     }
 
     system("clear");
     std::cout << "***TIC-TAC-TOE***" << std::endl;
     board.Render();
-    switch(board.Status())
+    switch(board.GetStatus())
     {
-        case X_WIN:
+        case t3::Board::Status::X_WIN:
             std::cout << "X WINS THE GAME" << std::endl;
             break;
-        case O_WIN:
+        case t3::Board::Status::O_WIN:
             std::cout << "O WINS THE GAME" << std::endl;
             break;
-        case TIE:
+        case t3::Board::Status::TIE:
             std::cout << "NO ONE WINS THE GAME" << std::endl;
             break;
         default:
@@ -87,7 +88,7 @@ int main()
     return 0;
 }
 
-t3Piece PickPiece()
+t3::Board::Piece PickPiece()
 {
     char choice;
     std::cout << "Pick (X/O): ";
@@ -97,11 +98,11 @@ t3Piece PickPiece()
     {
     case 'X':
     case 'x':
-        return X;
+        return t3::Board::Piece::X;
     case 'O':
     case 'o':
-        return O;
+        return t3::Board::Piece::O;
     default:
-        return ERROR;
+        return t3::Board::Piece::ERROR;
     }
 }

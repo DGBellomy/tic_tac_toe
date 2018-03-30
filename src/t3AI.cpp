@@ -1,70 +1,77 @@
-#include "t3AI.h"
+#include "t3/AI.h"
+
 #include <iostream>
 
+#include "t3/Board.h"
 
 
-t3AI::t3AI(t3Piece piece)
-    :t3Player(piece)
+namespace t3
 {
-}
-
-
-t3AI::~t3AI() {
-}
-
-bool t3AI::Move(t3Board & board)
-{
-    int row, col;
-
-    // find best move
+    AI::AI(Board::Piece piece)
+        :Player(piece)
     {
-        int best_move = -12;
-        for (int i = 0; i < 3; i++)
+    }
+
+
+    AI::~AI() {
+    }
+
+    bool AI::Move(Board & board)
+    {
+        int row, col;
+
+        // find best move
         {
-            for (int j = 0; j < 3; j++)
+            int best_move = -12;
+            for (int i = 0; i < 3; i++)
             {
-                if (board.GetPiece(i, j) == EMPTY)
+                for (int j = 0; j < 3; j++)
                 {
-                    int curr_move = _MiniMax(board, i, j);
-                    if (curr_move > best_move)
+                    if (board.GetPiece(i, j) == Board::EMPTY)
                     {
-                        row = i;
-                        col = j;
-                        best_move = curr_move;
+                        int curr_move = _MiniMax(board, i, j);
+                        if (curr_move > best_move)
+                        {
+                            row = i;
+                            col = j;
+                            best_move = curr_move;
+                        }
                     }
                 }
             }
         }
+
+        return MakeMove(board, row, col);
     }
 
-    return MakeMove(board, row, col);
-}
-
-int t3AI::_MiniMax(t3Board board, int row, int col, bool myTurn, int moves)
-{
-    board.SetPiece(row, col, (myTurn) ? ((m_piece == X) ? O : X) : m_piece);
-    t3Status status = board.Status();
-    int best_move = (myTurn) ? -12 : 12;
-    int move_value = 10 - moves;
-
-    switch(status)
+    int AI::_MiniMax(Board board, int row, int col, bool myTurn, int moves)
     {
-    case IN_PROGRESS:
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++)
-                if (board.GetPiece(i, j) == EMPTY)
-                {
-                    int curr_move = _MiniMax(board, i, j, !myTurn, moves + 1);
-                    bool isBetterMove = (myTurn) ? (curr_move > best_move) : (curr_move < best_move);
-                    if (isBetterMove)
-                        best_move = curr_move;
-                }
-        return best_move;
-    case X_WIN:
-        return move_value * ((m_piece == X) ? 1 : -1);
-    case O_WIN:
-        return move_value * ((m_piece == O) ? 1 : -1);
-    default:
-        return 0;
+        board.SetPiece(row, col, (myTurn) ?
+                ((m_piece == Board::Piece::X) ?  Board::O : Board::Piece::X)
+                : m_piece);
+        Board::Status status = board.GetStatus();
+        int best_move = (myTurn) ? -12 : 12;
+        int move_value = 10 - moves;
+
+        switch(status)
+        {
+            case Board::Status::IN_PROGRESS:
+                for (int i = 0; i < 3; i++)
+                    for (int j = 0; j < 3; j++)
+                        if (board.GetPiece(i, j) == Board::Piece::EMPTY)
+                        {
+                            int curr_move = _MiniMax(board, i, j, !myTurn, moves + 1);
+                            bool isBetterMove = (myTurn) ? (curr_move > best_move) : (curr_move < best_move);
+                            if (isBetterMove)
+                                best_move = curr_move;
+                        }
+                return best_move;
+            case Board::Status::X_WIN:
+                return move_value * ((m_piece == Board::Piece::X) ? 1 : -1);
+            case Board::Status::O_WIN:
+                return move_value * ((m_piece == Board::Piece::O) ? 1 : -1);
+            default:
+                return 0;
+        }
     }
-}
+};
