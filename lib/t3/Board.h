@@ -2,12 +2,17 @@
 #define T3_BOARD_H
 
 #include <vector>
+#include <sstream>
 
 enum t3Piece {EMPTY, X, O, ERROR};
 enum t3Status {IN_PROGRESS, X_WIN, O_WIN, TIE};
 
 class t3Board
 {
+private: // Attributes
+
+    std::vector<t3Piece> m_board;
+
 public: // Constructors & Deconstructor
 
     t3Board() : m_board(9) {}
@@ -99,7 +104,7 @@ public: // Methods
 
 private: // Methods
 
-    char _ConvertPiece(t3Piece piece) const;
+    char _ConvertPiece(t3Piece piece) const
     {
         switch(piece)
         {
@@ -113,10 +118,6 @@ private: // Methods
                 return 'F';
         }
     }
-
-private: // Attributes
-
-    std::vector<t3Piece> m_board;
 
 };
 

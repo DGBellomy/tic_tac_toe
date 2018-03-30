@@ -1,6 +1,6 @@
 #pragma once
 
-#include "t3Board.h"
+#include "t3/Board.h"
 
 class t3Player
 {

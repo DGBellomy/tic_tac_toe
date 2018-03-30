@@ -1,8 +1,8 @@
 CC=g++
 STD=c++11
-INCLUDES=-I include
-SRC=src/
-PROG=tic_tac_toe.exe
+INCLUDES=-Iinclude -Ilib
+SRC=src
+PROG=tic_tac_toe
 
 .PHONY: build clean
 

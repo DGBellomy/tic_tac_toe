@@ -1,6 +1,6 @@
 #pragma once
 
-#include "t3Player.h"
+#include "t3/Player.h"
 
 class t3AI : public t3Player
 {

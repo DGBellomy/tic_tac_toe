@@ -1,7 +1,7 @@
 #include <iostream>
-#include "t3Board.h"
-#include "t3Human.h"
-#include "t3AI.h"
+#include "t3/Board.h"
+#include "t3/Human.h"
+#include "t3/AI.h"
 
 t3Piece PickPiece();
 
@@ -40,8 +40,9 @@ int main()
             case O:
                 player1 = new t3AI(X);
                 player2 = new t3Human(O);
+                break;
             default:
-                std::cout << "ERROR: Invalid value for piece" << std::endl;
+                std::cout << "ERROR: Invalid value for piece." << std::endl;
                 continue;
             }
             break;
