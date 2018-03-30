@@ -1,5 +1,6 @@
 #include <iostream>
 #include "t3/Board.h"
+#include "t3/Game.h"
 #include "t3/Human.h"
 #include "t3/AI.h"
 
@@ -7,10 +8,10 @@ t3::Board::Piece PickPiece();
 
 int main()
 {
-    t3::Board board;
+    t3::Game* game;
+    t3::Board* board;
     t3::Player* player1 = nullptr;
     t3::Player* player2 = nullptr;
-    t3::Player* current;
 
     // how many players?
     while (true)
@@ -58,20 +59,27 @@ int main()
         break;
     }
 
-    current = player1;
+    //current = player1;
 
-    while (board.GetStatus() == t3::Board::Status::IN_PROGRESS)
+    /*while (board.GetStatus() == t3::Board::Status::IN_PROGRESS)
     {
         system("clear");
         while (!current->Move(board))
             std::cout << "invalid move" << std::endl;
         current = (current->GetPiece() == t3::Board::Piece::X) ? player2 : player1;
+    }*/
+
+    game = new t3::Game(board, player1, player2);
+
+    while (not game->IsOver())
+    {
+        game->Update();
     }
 
     system("clear");
     std::cout << "***TIC-TAC-TOE***" << std::endl;
-    board.Render();
-    switch(board.GetStatus())
+    board->Render();
+    switch(board->GetStatus())
     {
         case t3::Board::Status::X_WIN:
             std::cout << "X WINS THE GAME" << std::endl;

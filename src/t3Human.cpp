@@ -15,7 +15,7 @@ namespace t3
     {
     }
 
-    bool Human::Move(Board & board)
+    bool Human::Move(Board* board)
     {
         int row, col;
         _DisplayBoard(board);
@@ -24,10 +24,10 @@ namespace t3
         return MakeMove(board, row, col);
     }
 
-    void Human::_DisplayBoard(const Board & board) const
+    void Human::_DisplayBoard(const Board* board) const
     {
         std::cout << "***TIC-TAC-TOE***" << std::endl;
         std::cout << "Player" << m_piece << "'s turn" << std::endl;
-        board.Render();
+        board->Render();
     }
 };

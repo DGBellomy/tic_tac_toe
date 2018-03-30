@@ -16,7 +16,7 @@ namespace t3
     AI::~AI() {
     }
 
-    bool AI::Move(Board & board)
+    bool AI::Move(Board* board)
     {
         int row, col;
 
@@ -27,9 +27,9 @@ namespace t3
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    if (board.GetPiece(i, j) == Board::EMPTY)
+                    if (board->GetPiece(i, j) == Board::EMPTY)
                     {
-                        int curr_move = _MiniMax(board, i, j);
+                        int curr_move = _MiniMax(*board, i, j);
                         if (curr_move > best_move)
                         {
                             row = i;

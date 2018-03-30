@@ -6,7 +6,7 @@ namespace t3
 {
     class Board
     {
-        public: 
+        public:
             enum Piece {EMPTY, X, O, ERROR};
             enum Status {IN_PROGRESS, X_WIN, O_WIN, TIE};
 
@@ -19,10 +19,11 @@ namespace t3
             bool SetPiece(int row, int col, Piece value);
             Piece GetPiece(int row, int col) const;
             Status GetStatus() const;
+            Piece ConvertToPiece(const char& piece) const;
 
         private:
 
-            char _ConvertPiece(Piece piece) const;
+            char _ConvertToChar(Piece piece) const;
 
         private:
 

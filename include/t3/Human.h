@@ -12,10 +12,10 @@ namespace t3
             Human(Board::Piece piece);
             ~Human();
 
-            bool Move(Board& board) override;
+            bool Move(Board* board) override;
 
         private:
 
-            void _DisplayBoard(const Board& board) const;
+            void _DisplayBoard(const Board* board) const;
     };
 };

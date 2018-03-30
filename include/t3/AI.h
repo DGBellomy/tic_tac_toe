@@ -11,7 +11,7 @@ namespace t3
             AI(Board::Piece piece);
             ~AI();
 
-            bool Move(Board& board) override;
+            bool Move(Board* board) override;
 
         private:
 

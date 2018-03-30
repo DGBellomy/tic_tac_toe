@@ -9,13 +9,14 @@ namespace t3
         public:
 
             Player(Board::Piece piece);
+            virtual ~Player();
 
-            virtual bool Move(Board& board) = 0;
+            virtual bool Move(Board* board) = 0;
             Board::Piece GetPiece() const;
 
         protected:
 
-            bool MakeMove(Board& board, int row, int col);
+            bool MakeMove(Board* board, int row, int col);
 
         protected:
 

@@ -8,14 +8,17 @@ namespace t3
         : m_piece(piece)
     {}
 
+    Player::~Player()
+    {}
+
     Board::Piece Player::GetPiece() const
     {
         return m_piece;
     }
 
-    bool Player::MakeMove(Board & board, int row, int col)
+    bool Player::MakeMove(Board * board, int row, int col)
     {
-        if (!board.SetPiece(row, col, m_piece))
+        if (!board->SetPiece(row, col, m_piece))
             return false;
         return true;
     }
