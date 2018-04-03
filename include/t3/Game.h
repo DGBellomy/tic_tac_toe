@@ -8,15 +8,18 @@ namespace t3
     class Game
     {
     public:
-        Game(Board* board, Player* player1, Player* player2);
+        Game();
         ~Game();
 
         Game(const Game& rhs) = delete;
         const Game& operator=(const Game& rhs) = delete;
 
     public:
+        bool Init(int num_players, Board::Piece piece);
+        void Start();
         void Update();
         bool IsOver();
+        Board::Status Winner();
 
     private:
         Board* m_Board;

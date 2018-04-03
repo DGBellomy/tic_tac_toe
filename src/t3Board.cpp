@@ -70,29 +70,29 @@ namespace t3
                     || (piece == GetPiece(0, 2) && piece == GetPiece(2, 0))
                     || (piece == GetPiece(0, 1) && piece == GetPiece(2, 1))
                     || (piece == GetPiece(1, 0) && piece == GetPiece(1, 2)))
-                return (piece == Piece::X)? X_WIN : O_WIN;
+                return (piece == Piece::X)? Status::X_WIN : Status::O_WIN;
         }
 
         if ((piece = GetPiece(0, 0)) != Piece::EMPTY)
         {
             if ((piece == GetPiece(0, 1) && piece == GetPiece(0, 2))
                     || (piece == GetPiece(1, 0) && piece == GetPiece(2, 0)))
-                return (piece == Piece::X)? X_WIN : O_WIN;
+                return (piece == Piece::X)? Status::X_WIN : Status::O_WIN;
         }
 
         if ((piece = GetPiece(2, 2)) != Piece::EMPTY)
         {
             if ((piece == GetPiece(1, 2) && piece == GetPiece(0, 2))
                     || (piece == GetPiece(2, 0) && piece == GetPiece(2, 1)))
-                return (piece == Piece::X)? X_WIN : O_WIN;
+                return (piece == Piece::X)? Status::X_WIN : Status::O_WIN;
         }
 
         for (int row = 0; row < 3; row++)
             for (int col = 0; col < 3; col++)
                 if (GetPiece(row, col) == Piece::EMPTY)
-                    return IN_PROGRESS;
+                    return Status::IN_PROGRESS;
 
-        return TIE;
+        return Status::TIE;
     }
 
     Board::Piece Board::ConvertToPiece(const char& piece) const
