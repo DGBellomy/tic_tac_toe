@@ -1,8 +1,9 @@
 #include <iostream>
+
+#include "t3/AI.h"
 #include "t3/Board.h"
 #include "t3/Game.h"
 #include "t3/Human.h"
-#include "t3/AI.h"
 
 t3::Board::Piece PickPiece()
 {
@@ -48,8 +49,7 @@ int main()
 
     game = new t3::Game();
 
-    if (!game->Init(num_players, piece))
-        return 1;
+    game->Init();
 
     game->Start();
     while (!game->IsOver())
@@ -77,3 +77,19 @@ int main()
     system("pause");
     return 0;
 }
+
+/*
+int main() {
+    Game::Init();
+    Game::Start();
+    while (true) {
+        Game::Update();
+        AI::Update();
+        Physics::Update();
+        Graphics::Update();
+        Game::LateUpdate();
+    }
+
+    return 0;
+}
+*/
