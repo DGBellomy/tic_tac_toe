@@ -80,11 +80,14 @@ void GLT3BoardRenderer::Init()
 
     // Texture
     //Texture2D texture1;
-    //m_T3BoardTex.loadTexture("/usr/local/assets/textures/t3_board.png", true);
-    m_T3BoardTex.loadTexture("/usr/local/assets/textures/gow_logo.png", true);
+    m_T3BoardTex.loadTexture("/usr/local/assets/textures/t3_board.png", true);
+    //m_T3BoardTex.loadTexture("/usr/local/assets/textures/gow_logo.png", true);
 
     //Texture2D texture2;
     //texture2.loadTexture(texture2Filename, true);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
