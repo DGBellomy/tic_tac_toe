@@ -5,6 +5,12 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "IGame.h"
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// KEYBOARD INPUT HANDLER
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 void GLFW_OnKey(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
@@ -12,16 +18,65 @@ void GLFW_OnKey(GLFWwindow* window, int key, int scancode, int action, int mode)
     }
 }
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// CONSTRUCTORS & DECONSTRUCTOR
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-OpenGLApp::OpenGLApp()
-    : m_WindowPtr(nullptr) {}
+OpenGLApp::OpenGLApp(IGame* game)
+    : m_WindowPtr(nullptr),
+      m_ScreenWidth(800),
+      m_ScreenHeight(600),
+      m_Game(game)
+{}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 OpenGLApp::~OpenGLApp()
 {
+    delete m_Game;
     glfwTerminate();
 }
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// PUBLIC METHODS
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 bool OpenGLApp::Init()
+{
+    // Init OpenGL
+    if (!_InitOpenGL()) {
+        std::cerr << "OpenGL Failed to Init." << std::endl;
+        return false;
+    }
+
+    // Init Game
+    m_Game->Init();
+
+    return true;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+void OpenGLApp::Run()
+{
+    // Game Loop
+    m_Game->Start();
+    while (!glfwWindowShouldClose(m_WindowPtr)) {
+        glfwPollEvents();
+        m_Game->Update();
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        m_Game->Draw();
+
+        glfwSwapBuffers(m_WindowPtr);
+    }
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// PRIVATE METHODS
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+bool OpenGLApp::_InitOpenGL()
 {
     // Init OpenGL
     if (!glfwInit()) {
@@ -36,7 +91,8 @@ bool OpenGLApp::Init()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
     // Create Window
-    m_WindowPtr = glfwCreateWindow(800, 600, "TACOS RULE", NULL, NULL);
+    m_WindowPtr = glfwCreateWindow(m_ScreenWidth, m_ScreenHeight,
+                                   "TACOS RULE", NULL, NULL);
 
     if (m_WindowPtr == nullptr) {
         std::cerr << "Failed to create GLFW Window Ptr." << std::endl;
@@ -52,7 +108,7 @@ bool OpenGLApp::Init()
 
     // Set Mouse Input
     glfwSetInputMode(m_WindowPtr, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    glfwSetCursorPos(m_WindowPtr, 800 / 2.0, 600 / 2.0);
+    glfwSetCursorPos(m_WindowPtr, m_ScreenWidth / 2.0, m_ScreenHeight / 2.0);
 
     // Init glad
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -67,14 +123,4 @@ bool OpenGLApp::Init()
     return true;
 }
 
-void OpenGLApp::Run()
-{
-    // Game Loop
-    while (!glfwWindowShouldClose(m_WindowPtr)) {
-        glfwPollEvents();
-
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        glfwSwapBuffers(m_WindowPtr);
-    }
-}
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

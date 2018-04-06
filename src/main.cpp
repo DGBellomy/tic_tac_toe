@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 
 #include "t3/AI.h"
 #include "t3/Board.h"
@@ -78,7 +78,7 @@ int main()
     return 0;
 }
 
-/*
+[>
 int main() {
     Game::Init();
     Game::Start();
@@ -92,4 +92,4 @@ int main() {
 
     return 0;
 }
-*/
+<]*/

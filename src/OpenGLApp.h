@@ -4,10 +4,12 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "IGame.h"
+
 class OpenGLApp {
 
 public:
-    OpenGLApp();
+    OpenGLApp(IGame* game);
     ~OpenGLApp();
 
     OpenGLApp(const OpenGLApp& rhs) = delete;
@@ -18,7 +20,13 @@ public:
     void Run();
 
 private:
+    bool _InitOpenGL();
+
+private:
     GLFWwindow* m_WindowPtr;
+    unsigned int m_ScreenWidth;
+    unsigned int m_ScreenHeight;
+    IGame* m_Game;
 
 };
 
