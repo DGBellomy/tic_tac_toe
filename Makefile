@@ -9,7 +9,7 @@ OUT=debug/tic_tac_toe
 .PHONY: build clean
 
 build:
-	${CC} -v ${FLAGS} ${SRC} ${INCLUDES} ${LIB_DIR} -framework OpenGL ${LIBS} -o ${OUT}
+	${CC} ${FLAGS} ${SRC} ${INCLUDES} ${LIB_DIR} -framework OpenGL ${LIBS} -o ${OUT}
 
 clean:
 	rm -f ${PROG}

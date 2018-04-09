@@ -1,6 +1,7 @@
 #include "TicTacToe.h"
 
 #include "Board.h"
+#include "InputHandler.h"
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // CONSTRUCTORS & DECONSTRUCTOR
@@ -58,8 +59,12 @@ void TicTacToe::Update()
 
 void TicTacToe::Draw()
 {
+    auto input_handler = InputHandler::GetInstance();
+    if (input_handler->MouseDown()) {
+        m_Board->Draw();
+    }
     // m_Question->Draw();
-    m_Board->Draw();
+    //m_Board->Draw();
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

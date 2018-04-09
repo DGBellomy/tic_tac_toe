@@ -6,15 +6,35 @@
 #include <GLFW/glfw3.h>
 
 #include "IGame.h"
+#include "InputHandler.h"
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// KEYBOARD INPUT HANDLER
+// INPUT HANDLER
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 void GLFW_OnKey(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, GL_TRUE);
+    }
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+void GLFW_OnMouse(GLFWwindow* window, int button, int action, int mode)
+{
+    InputHandler* input_handler = InputHandler::GetInstance();
+    bool mouse_down = (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS);
+    input_handler->MouseDown(mouse_down);
+
+    if (mouse_down) {
+        double xpos, ypos;
+        glfwGetCursorPos(window, &xpos, &ypos);
+
+        input_handler->MousePos(xpos, ypos);
+        std::cout << "PRESSING MOUSE BUTTON ("
+                  << input_handler->MouseXPos() << ',' << input_handler->MouseYPos()
+                  << ")!!!" << std::endl;
     }
 }
 
@@ -89,6 +109,7 @@ bool OpenGLApp::_InitOpenGL()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
     // Create Window
     m_WindowPtr = glfwCreateWindow(m_ScreenWidth, m_ScreenHeight,
@@ -103,12 +124,14 @@ bool OpenGLApp::_InitOpenGL()
     // Make Current Window
     glfwMakeContextCurrent(m_WindowPtr);
 
+    // Set Mouse Input
+    //glfwSetInputMode(m_WindowPtr, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(m_WindowPtr, GLFW_CURSOR, GLFW_CURSOR);
+    glfwSetCursorPos(m_WindowPtr, m_ScreenWidth / 2.0, m_ScreenHeight / 2.0);
+
     // Set Keyboard Input
     glfwSetKeyCallback(m_WindowPtr, GLFW_OnKey);
-
-    // Set Mouse Input
-    glfwSetInputMode(m_WindowPtr, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    glfwSetCursorPos(m_WindowPtr, m_ScreenWidth / 2.0, m_ScreenHeight / 2.0);
+    glfwSetMouseButtonCallback(m_WindowPtr, GLFW_OnMouse);
 
     // Init glad
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
@@ -118,6 +141,7 @@ bool OpenGLApp::_InitOpenGL()
 
     // Set Clear Color
     glEnable(GL_DEPTH_TEST);
+    // m_Game->BGColor();
     glClearColor(0.23f, 0.38f, 0.47f, 1.0f);
 
     return true;
