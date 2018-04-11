@@ -24,17 +24,16 @@ void GLFW_OnKey(GLFWwindow* window, int key, int scancode, int action, int mode)
 void GLFW_OnMouse(GLFWwindow* window, int button, int action, int mode)
 {
     InputHandler* input_handler = InputHandler::GetInstance();
-    bool mouse_down = (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS);
-    input_handler->MouseDown(mouse_down);
 
-    if (mouse_down) {
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+        input_handler->MouseDown(true);
+
         double xpos, ypos;
         glfwGetCursorPos(window, &xpos, &ypos);
-
         input_handler->MousePos(xpos, ypos);
-        std::cout << "PRESSING MOUSE BUTTON ("
-                  << input_handler->MouseXPos() << ',' << input_handler->MouseYPos()
-                  << ")!!!" << std::endl;
+    }
+    else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+        input_handler->MouseDown(false);
     }
 }
 
@@ -143,6 +142,9 @@ bool OpenGLApp::_InitOpenGL()
     glEnable(GL_DEPTH_TEST);
     // m_Game->BGColor();
     glClearColor(0.23f, 0.38f, 0.47f, 1.0f);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     return true;
 }

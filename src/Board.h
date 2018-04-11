@@ -5,7 +5,7 @@
 
 class Board {
 public:
-    Board(IRenderer* board_renderer);
+    Board(IRenderer* board_renderer, IRenderer** piece_renderer);
     ~Board();
 
 public:
@@ -19,6 +19,7 @@ public:
 private:
     //Piece* m_Board;
     IRenderer* m_BoardRenderer;
+    IRenderer** m_PieceRenderer;
 
 };
 

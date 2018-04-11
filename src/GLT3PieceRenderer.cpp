@@ -1,4 +1,4 @@
-#include "GLT3BoardRenderer.h"
+#include "GLT3PieceRenderer.h"
 
 #include <iostream>
 
@@ -12,12 +12,12 @@
 // CONSTRUCTORS & DECONSTRUCTOR
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-GLT3BoardRenderer::GLT3BoardRenderer()
+GLT3PieceRenderer::GLT3PieceRenderer()
 {}
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-GLT3BoardRenderer::~GLT3BoardRenderer()
+GLT3PieceRenderer::~GLT3PieceRenderer()
 {
     glDeleteVertexArrays(1, &m_VAO);
     glDeleteBuffers(1, &m_VBO);
@@ -28,7 +28,7 @@ GLT3BoardRenderer::~GLT3BoardRenderer()
 // PUBLIC METHODS
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-void GLT3BoardRenderer::Init(float center_x, float center_y, float width, float height)
+void GLT3PieceRenderer::Init(float center_x, float center_y, float width, float height)
 {
     //GLfloat half_width = (m_Width / 2.0f) / 400.0f;
     //GLfloat half_height = (m_Height / 2.0f) / 300.0f;
@@ -85,11 +85,12 @@ void GLT3BoardRenderer::Init(float center_x, float center_y, float width, float 
     //const char* vsFile = "/usr/local/assets/shaders/t3_board.vs.glsl";
     //const char* fsFile = "/usr/local/assets/shaders/t3_board.fs.glsl";
     m_Shader.loadShaders(
-            "/usr/local/assets/shaders/t3_board.vs.glsl",
-            "/usr/local/assets/shaders/t3_board.fs.glsl");
+            "/usr/local/assets/shaders/t3_piece.vs.glsl",
+            "/usr/local/assets/shaders/t3_piece.fs.glsl");
 
-    // Texture
-    m_T3BoardTex.loadTexture("/usr/local/assets/textures/t3_board.png", true);
+    // Textures
+    m_T3PieceX.loadTexture("/usr/local/assets/textures/t3_X.png", true);
+    m_T3PieceO.loadTexture("/usr/local/assets/textures/t3_O.png", true);
 
     glBindVertexArray(0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -98,18 +99,19 @@ void GLT3BoardRenderer::Init(float center_x, float center_y, float width, float 
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-void GLT3BoardRenderer::Draw()
+void GLT3PieceRenderer::Draw()
 {
-    m_T3BoardTex.bind(0);
+    m_T3PieceX.bind(1);
+    m_T3PieceO.bind(2);
 
     m_Shader.use();
 
-    glUniform1i(glGetUniformLocation(m_Shader.getProgram(), "TicTacToeBoard"), 0);
+    glUniform1i(glGetUniformLocation(m_Shader.getProgram(), "X_Piece"), 1);
+    glUniform1i(glGetUniformLocation(m_Shader.getProgram(), "O_Piece"), 2);
 
     // Make active/current
     glBindVertexArray(m_VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
     // Disconnect
     glBindVertexArray(0);
 }

@@ -6,7 +6,7 @@ public:
     virtual ~IRenderer() {}
 
 public:
-    virtual void Init() = 0;
+    virtual void Init(float center_x, float center_y, float width, float height) = 0;
     virtual void Draw() = 0;
 };
 

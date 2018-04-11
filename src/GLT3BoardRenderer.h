@@ -17,7 +17,7 @@ public:
     GLT3BoardRenderer& operator=(const GLT3BoardRenderer& rhs) = delete;
 
 public:
-    void Init() final;
+    void Init(float center_x, float center_y, float width, float height) final;
     void Draw() final;
 
 private:

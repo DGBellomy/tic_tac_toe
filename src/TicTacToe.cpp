@@ -42,6 +42,10 @@ void TicTacToe::Start()
 
 void TicTacToe::Update()
 {
+    auto input_handler = InputHandler::GetInstance();
+    if (input_handler->MouseDown()) {
+        //m_Board->GetPos(input_handler->MouseXPos(), input_handler->MouseYPos());
+    }
     // if (m_Board->Status() != IN_PROGRESS)
     //     m_GameOver = true;
     // else if (m_CurrentPlayer->Moved())
@@ -59,12 +63,8 @@ void TicTacToe::Update()
 
 void TicTacToe::Draw()
 {
-    auto input_handler = InputHandler::GetInstance();
-    if (input_handler->MouseDown()) {
-        m_Board->Draw();
-    }
     // m_Question->Draw();
-    //m_Board->Draw();
+    m_Board->Draw();
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
