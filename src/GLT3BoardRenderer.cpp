@@ -13,6 +13,7 @@
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 GLT3BoardRenderer::GLT3BoardRenderer()
+    : m_Hide(false)
 {}
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -100,6 +101,8 @@ void GLT3BoardRenderer::Init(float center_x, float center_y, float width, float 
 
 void GLT3BoardRenderer::Draw()
 {
+    if (m_Hide) return;
+
     m_T3BoardTex.bind(0);
 
     m_Shader.use();
@@ -112,6 +115,13 @@ void GLT3BoardRenderer::Draw()
 
     // Disconnect
     glBindVertexArray(0);
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+void GLT3BoardRenderer::Hide(bool hide)
+{
+    m_Hide = hide;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

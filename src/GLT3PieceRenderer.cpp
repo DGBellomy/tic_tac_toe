@@ -13,6 +13,7 @@
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 GLT3PieceRenderer::GLT3PieceRenderer()
+    : m_Hide(false)
 {}
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -101,6 +102,8 @@ void GLT3PieceRenderer::Init(float center_x, float center_y, float width, float 
 
 void GLT3PieceRenderer::Draw()
 {
+    if (m_Hide) return;
+
     m_T3PieceX.bind(1);
     m_T3PieceO.bind(2);
 
@@ -114,6 +117,13 @@ void GLT3PieceRenderer::Draw()
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     // Disconnect
     glBindVertexArray(0);
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+void GLT3PieceRenderer::Hide(bool hide)
+{
+    m_Hide = hide;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

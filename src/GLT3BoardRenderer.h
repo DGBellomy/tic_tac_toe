@@ -19,11 +19,13 @@ public:
 public:
     void Init(float center_x, float center_y, float width, float height) final;
     void Draw() final;
+    virtual void Hide(bool hide=false) final;
 
 private:
     GLuint m_VBO, m_IBO, m_VAO;
     GLShaderProgram m_Shader;
     GLTexture2D m_T3BoardTex;
+    bool m_Hide;
 
 };
 
